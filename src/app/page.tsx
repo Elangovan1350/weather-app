@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="h-screen bg-cyan-200 flex justify-center items-center">
       <Button variant={"outline"}>
-        <Link href={"/weather"}>Weather</Link>
+        <Link href={"/weather/0"}>Weather</Link>
       </Button>
     </div>
   );
