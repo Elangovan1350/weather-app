@@ -30,8 +30,10 @@ const TableData = ({ cityData }: { cityData: CityData[] }) => {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Country</TableHead>
-            <TableHead className="hidden sm:table-cell">Timezone</TableHead>
-            <TableHead className="hidden md:table-cell">Co-ordinates</TableHead>
+            <TableHead className="hidden min-[422px]:table-cell">
+              Timezone
+            </TableHead>
+            <TableHead className="hidden sm:table-cell">Co-ordinates</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -53,10 +55,10 @@ const TableData = ({ cityData }: { cityData: CityData[] }) => {
                 </form>
               </TableCell>
               <TableCell>{city.label_en}</TableCell>
-              <TableCell className="hidden sm:table-cell">
+              <TableCell className="hidden min-[422px]:table-cell">
                 {city.timezone}
               </TableCell>
-              <TableCell className="hidden md:table-cell">
+              <TableCell className="hidden sm:table-cell">
                 {city.coordinates.lon}, {city.coordinates.lat}
               </TableCell>
             </TableRow>
