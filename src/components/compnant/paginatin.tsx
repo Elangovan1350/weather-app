@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  DotsHorizontalIcon,
+} from "@radix-ui/react-icons";
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -102,11 +107,19 @@ export function PaginationDemo({
         </PaginationContent>
       </Pagination>
       <div className="flex justify-center items-center gap-5 mb-5 sm:hidden">
-        <Button onClick={() => router.push(`/weather/${number - 1}/${assend}`)}>
-          Previous
+        <Button
+          variant={"ghost"}
+          onClick={() => router.push(`/weather/${number - 1}/${assend}`)}
+        >
+          <ChevronLeftIcon />
+          <span>Previous</span>
         </Button>
-        <Button onClick={() => router.push(`/weather/${number - 1}/${assend}`)}>
-          Next
+        <Button
+          variant={"ghost"}
+          onClick={() => router.push(`/weather/${number - 1}/${assend}`)}
+        >
+          <span> Next</span>
+          <ChevronRightIcon />
         </Button>
       </div>
 

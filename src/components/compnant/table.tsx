@@ -30,15 +30,16 @@ const TableData = ({ cityData }: { cityData: CityData[] }) => {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Country</TableHead>
-            <TableHead className="hidden min-[422px]:table-cell">
-              Timezone
-            </TableHead>
-            <TableHead className="hidden sm:table-cell">Co-ordinates</TableHead>
+            <TableHead className="">Timezone</TableHead>
+            <TableHead className="">Co-ordinates</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {cityData.map((city, i) => (
-            <TableRow key={i}>
+            <TableRow
+              key={i}
+              className={`${i % 2 === 0 ? "bg-neutral-50" : ""}`}
+            >
               <TableCell>
                 <form
                   action={async () => {
@@ -55,10 +56,8 @@ const TableData = ({ cityData }: { cityData: CityData[] }) => {
                 </form>
               </TableCell>
               <TableCell>{city.label_en}</TableCell>
-              <TableCell className="hidden min-[422px]:table-cell">
-                {city.timezone}
-              </TableCell>
-              <TableCell className="hidden sm:table-cell">
+              <TableCell className="">{city.timezone}</TableCell>
+              <TableCell className="">
                 {city.coordinates.lon}, {city.coordinates.lat}
               </TableCell>
             </TableRow>

@@ -34,7 +34,7 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
 
   return (
     <div className="">
-      <h1 className="text-center text-3xl font-semibold my-6">
+      <h1 className="text-center text-xl sm:text-3xl font-semibold my-6">
         City And Country Name Table
       </h1>
       <div className="flex gap-10 justify-center mb-5">
