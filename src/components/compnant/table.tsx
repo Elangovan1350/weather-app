@@ -1,5 +1,6 @@
+import { redirect } from "next/navigation";
 import React from "react";
-import axios from "axios";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -9,9 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { PaginationDemo } from "@/components/compnant/paginatin";
+
 interface CityData {
   name: string;
   label_en: string;
@@ -22,29 +21,17 @@ interface Coordinates {
   lon: number;
   lat: number;
 }
-interface Total {
-  total_count: number;
-  results: CityData[];
-}
-const Weather = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
-  const calculation = Number(id) * 100;
 
-  const data = await axios.get(
-    `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?select=name%2Ccoordinates%2Ctimezone%2Clabel_en&limit=100&offset=${calculation}`
-  );
-  const total: Total = await data.data;
-  const cityData: CityData[] = total.results;
-
+const TableData = ({ cityData }: { cityData: CityData[] }) => {
   return (
-    <div className="">
+    <div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Country</TableHead>
-            <TableHead>Timezone</TableHead>
-            <TableHead>Co-ordinates</TableHead>
+            <TableHead className="hidden sm:table-cell">Timezone</TableHead>
+            <TableHead className="hidden md:table-cell">Co-ordinates</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,17 +53,18 @@ const Weather = async ({ params }: { params: { id: string } }) => {
                 </form>
               </TableCell>
               <TableCell>{city.label_en}</TableCell>
-              <TableCell>{city.timezone}</TableCell>
-              <TableCell>
+              <TableCell className="hidden sm:table-cell">
+                {city.timezone}
+              </TableCell>
+              <TableCell className="hidden md:table-cell">
                 {city.coordinates.lon}, {city.coordinates.lat}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <PaginationDemo number={Number(id)} />
     </div>
   );
 };
 
-export default Weather;
+export default TableData;

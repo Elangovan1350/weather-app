@@ -3,8 +3,9 @@ import axios from "axios";
 import Image from "next/image";
 import { FaWind, FaCloud } from "react-icons/fa";
 import { MdVisibility } from "react-icons/md";
+import { WiCelsius, WiThermometer } from "react-icons/wi";
 
-const City = async ({ params }: { params: { id: string } }) => {
+const City = async ({ params }: { params: { id: string[] } }) => {
   const { id } = params;
   const lon = Number(id[0]);
   const lat = Number(id[1]);
@@ -14,8 +15,8 @@ const City = async ({ params }: { params: { id: string } }) => {
   const dataWeather = await weather.data;
 
   return (
-    <div className="h-screen  flex justify-center items-center">
-      <div className="h-[500px] w-[800px] border-4 border-neutral-400 text-center text-3xl font-semibold capitalize px-10 py-0">
+    <div className="md:h-screen  flex justify-center items-center ">
+      <div className="w-full md:h-[500px] md:w-[800px] md:border-4 mb-14 border-neutral-400  text-center text-3xl font-semibold capitalize px-10 py-0 md:shadow-2xl shadow-neutral-700">
         <div className="flex items-center justify-center">
           <h1>{dataWeather.city.name}</h1>
           <Image
@@ -25,33 +26,54 @@ const City = async ({ params }: { params: { id: string } }) => {
             height={100}
           />
         </div>
-        <section className="grid  grid-cols-2 h-[400px] content-center justify-center items-center">
-          <div className="flex justify-start flex-col gap-y-2 items-start">
-            <p className="text-2xl font-medium border-2 border-gray-500 w-full p-2">
-              Current Temp : {dataWeather.list[0].main.temp}C
-            </p>
-            <p className="text-2xl font-medium  border-2 border-gray-500 w-full p-2">
-              Feels Like : {dataWeather.list[0].main.feels_like}C
-            </p>
-            <p className="text-2xl font-medium  border-2 border-gray-500 w-full p-2">
-              Min Temp : {dataWeather.list[0].main.temp_min}C
-            </p>
-            <p className="text-2xl font-medium  border-2 border-gray-500 w-full p-2">
-              Max Temp : {dataWeather.list[0].main.temp_max}C
-            </p>
+        <p className="text-center  text-4xl">
+          Current Weather{<WiThermometer size={40} className="inline-block" />}:
+        </p>
+        <p className="flex justify-center items-center">
+          <span>
+            {dataWeather.list[0].main.temp}
+            <WiCelsius size={60} className="inline-block" />
+            {dataWeather.list[0].weather[0].main}
+          </span>
+          <span>
+            <Image
+              src={`https://openweathermap.org/img/wn/${dataWeather.list[0].weather[0].icon}@2x.png`}
+              alt={dataWeather.list[0].weather[0].description}
+              width={50}
+              height={50}
+            />
+          </span>
+        </p>
+        <section className="grid  grid-cols-1 md:grid-cols-2 h-fit md:h-[300px] gap-5 content-center items-center justify-items-stretch">
+          <div className="flex  flex-col justify-start gap-y-2 items-end">
+            <div className="text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+              <WiThermometer size={40} />
+              <p>Feels Like : {dataWeather.list[0].main.feels_like}</p>
+              <WiCelsius size={40} />
+            </div>
+            <div className="text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+              <WiThermometer size={40} />
+              <p>Min Temp : {dataWeather.list[0].main.temp_min}</p>
+              <WiCelsius size={40} />
+            </div>
+            <div className="text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+              <WiThermometer size={40} />
+              <p>Max Temp : {dataWeather.list[0].main.temp_max}</p>
+              <WiCelsius size={40} />
+            </div>
           </div>
-          <div className="flex justify-start items-start ml-5 flex-col  gap-y-2 font-medium text-lg">
-            <div className="border-2 border-gray-500 w-full p-2">
+          <div className="flex justify-start items-start flex-col  gap-y-2 font-medium text-lg">
+            <div className="flex items-center gap-x-5 border-2 border-gray-500 w-full p-2">
               {<FaWind size={40} />}
-              <p>Wind Speed :{dataWeather.list[0].wind.speed}km/h</p>
+              <p>Wind Speed : {dataWeather.list[0].wind.speed} KM/h</p>
             </div>
-            <div className="border-2 border-gray-500 w-full p-2">
+            <div className="flex items-center gap-x-5 border-2 border-gray-500 w-full p-2">
               {<FaCloud size={40} />}
-              <p>Cloud:{dataWeather.list[0].clouds.all}</p>
+              <p>Cloud : {dataWeather.list[0].clouds.all}</p>
             </div>
-            <div className="border-2 border-gray-500 w-full p-2">
+            <div className="flex items-center gap-x-5 border-2 border-gray-500 w-full p-2">
               {<MdVisibility size={40} />}
-              <p>Visibility:{dataWeather.list[0].visibility}</p>
+              <p>Visibility : {dataWeather.list[0].visibility}</p>
             </div>
           </div>
         </section>

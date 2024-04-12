@@ -1,12 +1,15 @@
+import SearchBar from "@/components/compnant/searchBar";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="h-screen bg-cyan-200 flex justify-center items-center">
-      <Button variant={"outline"}>
-        <Link href={"/weather/0"}>Weather</Link>
+      <div>
+        <SearchBar />
+      </div>
+      <Button variant={"secondary"}>
+        <Link href={"/weather/0"}>All City</Link>
       </Button>
     </div>
   );

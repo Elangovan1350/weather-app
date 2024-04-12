@@ -14,7 +14,13 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 
-export function PaginationDemo({ number }: { number: number }) {
+export function PaginationDemo({
+  number,
+  assend,
+}: {
+  number: number;
+  assend: string;
+}) {
   const router = useRouter();
   const [inputValue, setInputValue] = useState<number>(0);
   const [error, setError] = useState<boolean>(false);
@@ -23,7 +29,7 @@ export function PaginationDemo({ number }: { number: number }) {
     if (inputValue >= 0 && inputValue <= 99) {
       // Redirect if input is valid
       setInputValue(0);
-      router.push(`/weather/${inputValue}`);
+      router.push(`/weather/${inputValue}/${assend}`);
       // Handle redirect failure
 
       // Clear input field
@@ -41,18 +47,25 @@ export function PaginationDemo({ number }: { number: number }) {
         <PaginationContent>
           {number > 0 ? (
             <PaginationItem>
-              <PaginationPrevious href={`/weather/${number - 1}`} />
+              <PaginationPrevious href={`/weather/${number - 1}/${assend}`} />
+            </PaginationItem>
+          ) : null}
+          {number >= 3 ? (
+            <PaginationItem>
+              <PaginationEllipsis />
             </PaginationItem>
           ) : null}
           {number >= 2 ? (
             <PaginationItem>
-              <PaginationEllipsis />
+              <PaginationLink href={`/weather/${number - 2}/${assend}`}>
+                {number - 2}
+              </PaginationLink>
             </PaginationItem>
           ) : null}
 
           {number >= 1 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number - 1}`}>
+              <PaginationLink href={`/weather/${number - 1}/${assend}`}>
                 {number - 1}
               </PaginationLink>
             </PaginationItem>
@@ -61,21 +74,29 @@ export function PaginationDemo({ number }: { number: number }) {
           <PaginationItem>
             <PaginationLink isActive>{number}</PaginationLink>
           </PaginationItem>
+
           {number < 99 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number + 1}`}>
+              <PaginationLink href={`/weather/${number + 1}/${assend}`}>
                 {number + 1}
               </PaginationLink>
             </PaginationItem>
           ) : null}
           {number < 98 ? (
             <PaginationItem>
+              <PaginationLink href={`/weather/${number + 2}/${assend}`}>
+                {number + 2}
+              </PaginationLink>
+            </PaginationItem>
+          ) : null}
+          {number < 97 ? (
+            <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           ) : null}
           {number < 99 ? (
             <PaginationItem>
-              <PaginationNext href={`/weather/${number + 1}`} />
+              <PaginationNext href={`/weather/${number + 1}/${assend}`} />
             </PaginationItem>
           ) : null}
         </PaginationContent>
@@ -83,6 +104,7 @@ export function PaginationDemo({ number }: { number: number }) {
       <div className=" flex justify-center items-center gap-x-4">
         <Input
           type="number"
+          placeholder="Type number 0 to 99 here"
           max={99}
           min={0}
           onChange={(e) => setInputValue(Number(e.target.value))}
@@ -92,8 +114,8 @@ export function PaginationDemo({ number }: { number: number }) {
           Go
         </Button>
       </div>
-      <p className="text-center text-red-600">
-        {error ? "Invalid Input ! write 0 to 99 page" : null}
+      <p className="text-center text-red-600 font-medium text-lg ">
+        {error ? "Invalid Input, Type 0 to  99 " : null}
       </p>
     </div>
   );
