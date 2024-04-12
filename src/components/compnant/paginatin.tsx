@@ -46,7 +46,7 @@ export function PaginationDemo({
       <Pagination className="h-20 mb-3">
         <PaginationContent>
           {number > 0 ? (
-            <PaginationItem>
+            <PaginationItem className="hidden sm:inline-flex">
               <PaginationPrevious href={`/weather/${number - 1}/${assend}`} />
             </PaginationItem>
           ) : null}
@@ -95,7 +95,7 @@ export function PaginationDemo({
             </PaginationItem>
           ) : null}
           {number < 99 ? (
-            <PaginationItem>
+            <PaginationItem className="hidden sm:inline-flex">
               <PaginationNext href={`/weather/${number + 1}/${assend}`} />
             </PaginationItem>
           ) : null}
