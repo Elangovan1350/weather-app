@@ -51,34 +51,34 @@ const City = async ({ params }: { params: { id: string[] } }) => {
         </p>
         <section className="grid  grid-cols-1 md:grid-cols-2 h-fit md:h-[300px] gap-5 content-center items-center justify-items-stretch">
           <div className="flex  flex-col justify-start gap-y-2 items-end">
-            <div className=" text-xl sm:text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+            <div className=" text-xl sm:text-2xl flex justify-start items-center font-medium  border-2 border-gray-500 w-full p-2">
               <WiThermometer size={40} />
               <p>Feels Like : {dataWeather.list[0].main.feels_like}</p>
               <WiCelsius size={40} />
             </div>
-            <div className="text-xl sm:text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+            <div className="text-xl sm:text-2xl flex justify-start items-center font-medium  border-2 border-gray-500 w-full p-2">
               <WiThermometer size={40} />
               <p>Min Temp : {dataWeather.list[0].main.temp_min}</p>
               <WiCelsius size={40} />
             </div>
-            <div className="text-xl sm:text-2xl flex justify-start font-medium  border-2 border-gray-500 w-full p-2">
+            <div className="text-xl sm:text-2xl flex justify-start items-center font-medium  border-2 border-gray-500 w-full p-2">
               <WiThermometer size={40} />
               <p>Max Temp : {dataWeather.list[0].main.temp_max}</p>
               <WiCelsius size={40} />
             </div>
           </div>
           <div className="flex justify-start items-start flex-col  gap-y-2 font-medium text-xl sm:text-2xl">
-            <div className="flex items-center  border-2 border-gray-500 w-full p-2">
+            <div className="flex items-center justify-start  border-2 border-gray-500 w-full p-2">
               {<WiStrongWind size={40} />}
               <p>
                 Wind Speed : {dataWeather.list[0].wind.speed} km{"/"}h
               </p>
             </div>
-            <div className="flex items-center border-2 border-gray-500 w-full p-2">
+            <div className="flex items-center justify-start border-2 border-gray-500 w-full p-2">
               {<WiCloudy size={40} />}
               <p>Cloud : {dataWeather.list[0].clouds.all}%</p>
             </div>
-            <div className="flex items-center  border-2 border-gray-500 w-full p-2">
+            <div className="flex items-center justify-start  border-2 border-gray-500 w-full p-2">
               {<MdVisibility size={40} />}
               <p>Visibility : {dataWeather.list[0].visibility}</p>
             </div>
