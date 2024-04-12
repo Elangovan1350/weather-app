@@ -43,7 +43,7 @@ export function PaginationDemo({
 
   return (
     <div className="mb-10">
-      <Pagination className="h-20 mb-3">
+      <Pagination className="h-10 mt-10 mb-5">
         <PaginationContent>
           {number > 0 ? (
             <PaginationItem className="hidden sm:inline-flex">
@@ -101,6 +101,15 @@ export function PaginationDemo({
           ) : null}
         </PaginationContent>
       </Pagination>
+      <div className="flex justify-center items-center gap-5 mb-5 sm:hidden">
+        <Button onClick={() => router.push(`/weather/${number - 1}/${assend}`)}>
+          Previous
+        </Button>
+        <Button onClick={() => router.push(`/weather/${number - 1}/${assend}`)}>
+          Next
+        </Button>
+      </div>
+
       <div className=" flex justify-center items-center gap-x-4">
         <Input
           type="number"
