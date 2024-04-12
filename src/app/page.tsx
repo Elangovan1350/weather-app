@@ -1,10 +1,11 @@
 import SearchBar from "@/components/compnant/searchBar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   return (
-    <div className="h-screen bg-cyan-200 flex justify-center items-center">
+    <div className="h-screen bg-cyan-200 flex flex-col justify-evenly items-center">
       <div>
         <SearchBar />
       </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import Image from "next/image";
-import { FaWind, FaCloud } from "react-icons/fa";
 import { MdVisibility } from "react-icons/md";
 import {
   WiCelsius,

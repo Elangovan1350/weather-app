@@ -2,9 +2,9 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <section className="h-screen flex justify-center items-center ">
+    <div className="h-screen flex items-center justify-center">
       <div className="loader"></div>
-    </section>
+    </div>
   );
 };
 

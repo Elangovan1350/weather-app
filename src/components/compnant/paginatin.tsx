@@ -22,9 +22,11 @@ import { redirect, useRouter } from "next/navigation";
 export function PaginationDemo({
   number,
   assend,
+  filter,
 }: {
   number: number;
   assend: string;
+  filter: string;
 }) {
   const router = useRouter();
   const [inputValue, setInputValue] = useState<number>(0);
@@ -34,7 +36,7 @@ export function PaginationDemo({
     if (inputValue >= 0 && inputValue <= 99) {
       // Redirect if input is valid
       setInputValue(0);
-      router.push(`/weather/${inputValue}/${assend}`);
+      router.push(`/weather/${inputValue}/${assend}/${filter}`);
       // Handle redirect failure
 
       // Clear input field
@@ -52,7 +54,9 @@ export function PaginationDemo({
         <PaginationContent>
           {number > 0 ? (
             <PaginationItem className="hidden sm:inline-flex">
-              <PaginationPrevious href={`/weather/${number - 1}/${assend}`} />
+              <PaginationPrevious
+                href={`/weather/${number - 1}/${assend}/${filter}`}
+              />
             </PaginationItem>
           ) : null}
           {number >= 3 ? (
@@ -62,7 +66,9 @@ export function PaginationDemo({
           ) : null}
           {number >= 2 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number - 2}/${assend}`}>
+              <PaginationLink
+                href={`/weather/${number - 2}/${assend}/${filter}`}
+              >
                 {number - 2}
               </PaginationLink>
             </PaginationItem>
@@ -70,7 +76,9 @@ export function PaginationDemo({
 
           {number >= 1 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number - 1}/${assend}`}>
+              <PaginationLink
+                href={`/weather/${number - 1}/${assend}/${filter}`}
+              >
                 {number - 1}
               </PaginationLink>
             </PaginationItem>
@@ -82,14 +90,18 @@ export function PaginationDemo({
 
           {number < 99 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number + 1}/${assend}`}>
+              <PaginationLink
+                href={`/weather/${number + 1}/${assend}/${filter}`}
+              >
                 {number + 1}
               </PaginationLink>
             </PaginationItem>
           ) : null}
           {number < 98 ? (
             <PaginationItem>
-              <PaginationLink href={`/weather/${number + 2}/${assend}`}>
+              <PaginationLink
+                href={`/weather/${number + 2}/${assend}/${filter}`}
+              >
                 {number + 2}
               </PaginationLink>
             </PaginationItem>
@@ -101,7 +113,9 @@ export function PaginationDemo({
           ) : null}
           {number < 99 ? (
             <PaginationItem className="hidden sm:inline-flex">
-              <PaginationNext href={`/weather/${number + 1}/${assend}`} />
+              <PaginationNext
+                href={`/weather/${number + 1}/${assend}/${filter}`}
+              />
             </PaginationItem>
           ) : null}
         </PaginationContent>
@@ -109,14 +123,18 @@ export function PaginationDemo({
       <div className="flex justify-center items-center gap-5 mb-5 sm:hidden">
         <Button
           variant={"ghost"}
-          onClick={() => router.push(`/weather/${number - 1}/${assend}`)}
+          onClick={() =>
+            router.push(`/weather/${number - 1}/${assend}/${filter}`)
+          }
         >
           <ChevronLeftIcon />
           <span>Previous</span>
         </Button>
         <Button
           variant={"ghost"}
-          onClick={() => router.push(`/weather/${number - 1}/${assend}`)}
+          onClick={() =>
+            router.push(`/weather/${number - 1}/${assend}/${filter}`)
+          }
         >
           <span> Next</span>
           <ChevronRightIcon />
