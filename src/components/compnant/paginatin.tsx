@@ -53,6 +53,7 @@ export function PaginationDemo({
   }
   const pageTotal = Math.floor(total / 100);
   const url = `${assend}/${filter}/${country}`;
+  console.log(pageTotal);
 
   return (
     <div className="mb-10">
@@ -95,19 +96,19 @@ export function PaginationDemo({
               </PaginationLink>
             </PaginationItem>
           ) : null}
-          {number < pageTotal - 2 ? (
+          {number < pageTotal - 1 ? (
             <PaginationItem>
               <PaginationLink href={`/weather/${number + 2}/${url}`}>
                 {number + 2}
               </PaginationLink>
             </PaginationItem>
           ) : null}
-          {number <= pageTotal - 2 ? (
+          {number < pageTotal - 2 ? (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           ) : null}
-          {number <= pageTotal - 1 ? (
+          {number < pageTotal ? (
             <PaginationItem className="hidden sm:inline-flex">
               <PaginationNext href={`/weather/${number + 1}/${url}`} />
             </PaginationItem>
