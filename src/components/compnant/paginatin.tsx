@@ -53,7 +53,6 @@ export function PaginationDemo({
   }
   const pageTotal = Math.floor(total / 100);
   const url = `${assend}/${filter}/${country}`;
-  console.log(pageTotal);
 
   return (
     <div className="mb-10">
