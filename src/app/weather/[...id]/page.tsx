@@ -12,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Image from "next/image";
+import { log } from "console";
 interface CityData {
   name: string;
   label_en: string;
@@ -26,25 +28,84 @@ interface Total {
   total_count: number;
   results: CityData[];
 }
+
+interface Flags {
+  png: string;
+  svg: string;
+  alt: string;
+}
+interface Name {
+  common: string;
+  official: string;
+}
+
+interface Country {
+  flags: Flags;
+  name: Name;
+}
 const Weather = async ({ params }: { params: { id: string[] } }) => {
   const { id } = params;
 
   const id1 = Number(id[0]);
   const assend = (id[1] as string) || "ASC";
   const filter = (id[2] as string) || "name";
+  const country = (id[3] as string) || "india";
 
   const calculation = id1 * 100;
   const data = await axios.get(
-    `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?select=name%2Ccoordinates%2Ctimezone%2Clabel_en&order_by=${filter}%20${assend}&limit=100&offset=${calculation}`
+    `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?select=name%2Clabel_en%2Ctimezone%2Ccoordinates&where=search(label_en%2C%22${country}%22)&order_by=${filter}%20${assend}&limit=100&offset=${calculation}`
   );
   const total: Total = await data.data;
   const cityData: CityData[] = total.results;
+
+  const getCountryData = await axios.get(
+    "https://restcountries.com/v3.1/all?fields=name,flags"
+  );
+  const countryData: Country[] = getCountryData.data;
+  console.log(countryData[0].flags.png);
 
   return (
     <div className="">
       <h1 className="text-center text-xl sm:text-3xl font-semibold my-6">
         City And Country Name Table
       </h1>
+      <div className="mb-5">
+        <form
+          action={async (e: FormData) => {
+            "use server";
+            const selectCountry = e.get("selectId");
+            redirect(`/weather/0/${assend}/${filter}/${selectCountry}`);
+          }}
+          className="flex justify-center gap-3"
+        >
+          <label className="text-xl font-semibold" htmlFor="selectId">
+            Country:
+          </label>
+          <Select name="selectId" defaultValue={country}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={country} />
+            </SelectTrigger>
+            <SelectContent>
+              {countryData.map((data, i) => {
+                return (
+                  <SelectItem key={i} value={data.name.common}>
+                    <Image
+                      className="inline-block mr-2"
+                      src={data.flags.png}
+                      alt={data.flags.alt}
+                      width={20}
+                      height={20}
+                    />
+
+                    {data.name.common}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+          <Button type="submit">submit</Button>
+        </form>
+      </div>
       <div className="mb-5">
         <form
           action={async (e: FormData) => {
@@ -78,11 +139,11 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
           <Button type="submit">submit</Button>
         </form>
       </div>
-      <div className="flex gap-10 justify-center mb-5">
+      <div className="flex gap-5 sm:gap-10 justify-center mb-5">
         <form
           action={async () => {
             "use server";
-            redirect(`/weather/${id1}/ASC/${filter}`);
+            redirect(`/weather/${id1}/ASC/${filter}/${country}`);
           }}
         >
           <Button disabled={assend == "ASC" ? true : false}>
@@ -92,7 +153,7 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
         <form
           action={async () => {
             "use server";
-            redirect(`/weather/${id1}/DESC/${filter}`);
+            redirect(`/weather/${id1}/DESC/${filter}/${country}`);
           }}
         >
           <Button disabled={assend == "DESC" ? true : false}>
@@ -102,7 +163,12 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
       </div>
 
       <TableData cityData={cityData} />
-      <PaginationDemo number={id1} assend={assend} filter={filter} />
+      <PaginationDemo
+        number={id1}
+        assend={assend}
+        filter={filter}
+        country={country}
+      />
     </div>
   );
 };

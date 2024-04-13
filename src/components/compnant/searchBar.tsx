@@ -4,6 +4,8 @@ import React, { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { Input } from "../ui/input";
 import { useRouter } from "next/navigation";
+import { CiSearch } from "react-icons/ci";
+import { Button } from "../ui/button";
 
 interface DataSug {
   name: string;
@@ -16,6 +18,8 @@ interface Coordinates {
 const SearchBar = () => {
   const router = useRouter();
   const [rawData, setRawData] = useState<DataSug[]>();
+  console.log(rawData);
+
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     const typing = e.target.value;
@@ -29,26 +33,35 @@ const SearchBar = () => {
     console.log(typing);
   }
   return (
-    <div className="">
-      <Input type="text" onChange={handleChange} />
+    <div className="  ">
+      <Input
+        className="w-72 sm:w-96"
+        type="text"
+        placeholder={` Search City ...`}
+        onChange={handleChange}
+      />
       <div className="relative">
-        <div className="absolute top-0">
-          {rawData?.map((sug, i) => {
-            return (
-              <div key={i}>
-                <p
-                  onClick={() => {
-                    router.push(
-                      `/city/${sug.coordinates.lon}/${sug.coordinates.lat}`
-                    );
-                  }}
-                >
-                  {sug.name}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+        {rawData && (
+          <div className="absolute top-0 bg-white left-0 right-0 border ">
+            {rawData &&
+              rawData?.map((sug, i) => {
+                return (
+                  <Button
+                    variant={"ghost"}
+                    key={i}
+                    className="hover:bg-neutral-300 text-left h-10 z-50 block w-full "
+                    onClick={() => {
+                      router.push(
+                        `/city/${sug.coordinates.lon}/${sug.coordinates.lat}`
+                      );
+                    }}
+                  >
+                    {sug.name}
+                  </Button>
+                );
+              })}
+          </div>
+        )}
       </div>
     </div>
   );
