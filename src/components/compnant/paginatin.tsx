@@ -24,18 +24,20 @@ export function PaginationDemo({
   assend,
   filter,
   country,
+  total,
 }: {
   number: number;
   assend: string;
   filter: string;
   country: string;
+  total: number;
 }) {
   const router = useRouter();
   const [inputValue, setInputValue] = useState<number>(0);
   const [error, setError] = useState<boolean>(false);
   function handleSubmit() {
     // Validate input
-    if (inputValue >= 0 && inputValue <= 99) {
+    if (inputValue >= 0 && inputValue <= pageTotal) {
       // Redirect if input is valid
       setInputValue(0);
       router.push(`/weather/${inputValue}/${url}`);
@@ -49,7 +51,7 @@ export function PaginationDemo({
       setError(true);
     }
   }
-
+  const pageTotal = Math.floor(total / 100);
   const url = `${assend}/${filter}/${country}`;
 
   return (
@@ -86,26 +88,26 @@ export function PaginationDemo({
             <PaginationLink isActive>{number}</PaginationLink>
           </PaginationItem>
 
-          {number < 99 ? (
+          {number < pageTotal ? (
             <PaginationItem>
               <PaginationLink href={`/weather/${number + 1}/${url}`}>
                 {number + 1}
               </PaginationLink>
             </PaginationItem>
           ) : null}
-          {number < 98 ? (
+          {number < pageTotal - 2 ? (
             <PaginationItem>
               <PaginationLink href={`/weather/${number + 2}/${url}`}>
                 {number + 2}
               </PaginationLink>
             </PaginationItem>
           ) : null}
-          {number < 97 ? (
+          {number <= pageTotal - 2 ? (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
           ) : null}
-          {number < 99 ? (
+          {number <= pageTotal - 1 ? (
             <PaginationItem className="hidden sm:inline-flex">
               <PaginationNext href={`/weather/${number + 1}/${url}`} />
             </PaginationItem>
@@ -116,7 +118,7 @@ export function PaginationDemo({
         <Button
           variant={"ghost"}
           onClick={() => router.push(`/weather/${number - 1}/${url}`)}
-          disabled={number <= 0 ? true : false}
+          disabled={number == 0 ? true : false}
         >
           <ChevronLeftIcon />
           <span>Previous</span>
@@ -124,7 +126,7 @@ export function PaginationDemo({
         <Button
           variant={"ghost"}
           onClick={() => router.push(`/weather/${number + 1}/${url}`)}
-          disabled={number >= 99 ? true : false}
+          disabled={number == pageTotal ? true : false}
         >
           <span> Next</span>
           <ChevronRightIcon />
@@ -134,18 +136,22 @@ export function PaginationDemo({
       <div className=" flex justify-center items-center gap-x-4">
         <Input
           type="number"
-          placeholder="Type number 0 to 99 here"
-          max={99}
+          placeholder={`Type number 0 to ${pageTotal} here`}
+          max={total}
           min={0}
           onChange={(e) => setInputValue(Number(e.target.value))}
           className="w-60"
         />
-        <Button variant={"outline"} onClick={handleSubmit}>
+        <Button
+          variant={"outline"}
+          onClick={handleSubmit}
+          disabled={!!inputValue ? false : true}
+        >
           Go
         </Button>
       </div>
       <p className="text-center text-red-600 font-medium text-lg ">
-        {error ? "Invalid Input, Type 0 to  99 " : null}
+        {error ? `Invalid Input, Type 0 to ${pageTotal} ` : null}
       </p>
     </div>
   );

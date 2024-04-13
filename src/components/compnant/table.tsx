@@ -50,7 +50,11 @@ const TableData = ({ cityData }: { cityData: CityData[] }) => {
                     );
                   }}
                 >
-                  <Button variant={"link"} type="submit">
+                  <Button
+                    className="text-blue-500"
+                    variant={"link"}
+                    type="submit"
+                  >
                     {city.name}
                   </Button>
                 </form>

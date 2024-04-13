@@ -3,7 +3,6 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { PaginationDemo } from "@/components/compnant/paginatin";
-import { revalidatePath } from "next/cache";
 import TableData from "@/components/compnant/table";
 import {
   Select,
@@ -13,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import { log } from "console";
 interface CityData {
   name: string;
   label_en: string;
@@ -72,51 +70,73 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
         <form
           action={async (e: FormData) => {
             "use server";
-            const selectCountry = e.get("selectId");
-            redirect(`/weather/0/${assend}/${filter}/${selectCountry}`);
-          }}
-          className="flex justify-center gap-3"
-        >
-          <label className="text-xl font-semibold" htmlFor="selectId">
-            Country:
-          </label>
-          <Select name="selectId" defaultValue={country}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={country} />
-            </SelectTrigger>
-            <SelectContent>
-              {countryData.map((data, i) => {
-                return (
-                  <SelectItem key={i} value={data.name.common}>
-                    <Image
-                      className="inline-block mr-2"
-                      src={data.flags.png}
-                      alt={data.flags.alt}
-                      width={20}
-                      height={20}
-                    />
+            const selectCountry = e.get("selectCon");
+            const selectItem = e.get("selectId");
 
-                    {data.name.common}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
+            redirect(`/weather/0/${assend}/${selectItem}/${selectCountry}`);
+          }}
+          className="flex justify-center flex-col items-center gap-3"
+        >
+          <div className="flex gap-x-2 z-50">
+            <label className="text-xl font-semibold">Country:</label>
+            <Select name="selectCon" defaultValue={country}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder={country} />
+              </SelectTrigger>
+              <SelectContent>
+                {countryData.map((data, i) => {
+                  return (
+                    <SelectItem key={i} value={data.name.common}>
+                      <Image
+                        className="inline-block mr-2 h-auto w-auto"
+                        src={data.flags.png}
+                        alt={data.flags.alt}
+                        width={20}
+                        height={20}
+                      />
+
+                      {data.name.common}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex gap-x-2 z-50">
+            <label className="text-xl font-semibold">Filter:</label>
+            <Select name="selectId" defaultValue={filter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue
+                  placeholder={
+                    filter == "name"
+                      ? "City"
+                      : filter == "label_en"
+                      ? "Country"
+                      : "Timezone"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="name">City</SelectItem>
+                <SelectItem value="label_en">Country</SelectItem>
+                <SelectItem value="timezone">Timezone</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <Button type="submit">submit</Button>
         </form>
       </div>
-      <div className="mb-5">
+      {/* <div className="mb-5">
         <form
           action={async (e: FormData) => {
             "use server";
             const selectItem = e.get("selectId");
-            redirect(`/weather/${id1}/${assend}/${selectItem}`);
+            redirect(`/weather/${id1}/${assend}/${selectItem}/${country}`);
           }}
           className="flex justify-center gap-3"
         >
-          <label className="text-xl font-semibold" htmlFor="selectId">
-            Filter:
-          </label>
+          <label className="text-xl font-semibold">Filter:</label>
           <Select name="selectId" defaultValue={filter}>
             <SelectTrigger className="w-[180px]">
               <SelectValue
@@ -137,7 +157,7 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
           </Select>
           <Button type="submit">submit</Button>
         </form>
-      </div>
+      </div> */}
       <div className="flex gap-5 sm:gap-10 justify-center mb-5">
         <form
           action={async () => {
@@ -167,6 +187,7 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
         assend={assend}
         filter={filter}
         country={country}
+        total={total.total_count}
       />
     </div>
   );
