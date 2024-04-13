@@ -62,7 +62,6 @@ const Weather = async ({ params }: { params: { id: string[] } }) => {
     "https://restcountries.com/v3.1/all?fields=name,flags"
   );
   const countryData: Country[] = getCountryData.data;
-  console.log(countryData[0].flags.png);
 
   return (
     <div className="">
